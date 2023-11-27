@@ -47,7 +47,7 @@ public class Menu {
 				System.out.print(Cores.TEXT_PURPLE_BOLD +  Cores.ANSI_BLACK_BACKGROUND + "      ********************** **********************       ");
 				System.out.println(
 						
-						Cores.TEXT_PURPLE_BOLD +  Cores.ANSI_BLACK_BACKGROUND + "\n      Viva a Diversão! obrigada por acessar               ");
+						Cores.TEXT_PURPLE_BOLD +  Cores.ANSI_BLACK_BACKGROUND + "\n      Viva a Diversão! obrigada por acessar                       ");
 				sobre();
 				sc.close();
 				System.exit(0);

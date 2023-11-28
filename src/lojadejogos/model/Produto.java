@@ -48,7 +48,7 @@ package lojadejogos.model;
 		}
 
 		public void visualizar() {
-			System.out.print("Produto " + id + ", " + nome + ", tipo: " + (tipo == 1 ? "Medicamento" : "Cosmetico")
+			System.out.print("Produto " + id + ", " + nome + ", tipo: " + (tipo == 1 ? "Jogo" : "Camiseta")
 					+ ", preco: " + +preco + ",");
 
 		}

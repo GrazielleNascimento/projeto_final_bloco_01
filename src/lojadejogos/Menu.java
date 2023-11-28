@@ -1,4 +1,5 @@
 package lojadejogos;
+
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Optional;
@@ -6,11 +7,24 @@ import java.util.Scanner;
 
 import lojadejogos.util.Cores;
 
+import lojadejogos.controller.ProdutoController;
+import lojadejogos.model.Jogo;
+import lojadejogos.model.Camiseta;
+import lojadejogos.model.Produto;
+import lojadejogos.util.Cores;
 
 public class Menu {
 	public static void main(String[] args) {
 
 		Scanner sc = new Scanner(System.in);
+
+		ProdutoController produtos = new ProdutoController();
+
+		Jogo jogo = new Jogo(produtos.gerarId(), "Age of Empires", 1, 30.0, "Ação");
+		produtos.criarProduto(jogo);
+
+		Camiseta camiseta = new Camiseta(produtos.gerarId(), "Camiseta Floral Age of Empires", 2, 8.0, "P");
+		produtos.criarProduto(camiseta);
 
 		int opcao;
 		while (true) {
@@ -44,16 +58,18 @@ public class Menu {
 			}
 			// para sair do programa
 			if (opcao == 6) {
-				System.out.print(Cores.TEXT_PURPLE_BOLD +  Cores.ANSI_BLACK_BACKGROUND + "      ********************** **********************       ");
+				System.out.print(Cores.TEXT_PURPLE_BOLD + Cores.ANSI_BLACK_BACKGROUND
+						+ "      ********************** **********************       ");
 				System.out.println(
-						
-						Cores.TEXT_PURPLE_BOLD +  Cores.ANSI_BLACK_BACKGROUND + "\n      Viva a Diversão! obrigada por acessar                       ");
+
+						Cores.TEXT_PURPLE_BOLD + Cores.ANSI_BLACK_BACKGROUND
+								+ "\n      Viva a Diversão! obrigada por acessar                       ");
 				sobre();
 				sc.close();
 				System.exit(0);
 			}
-			String nome, genero, tamanho ;
-			int id, tipo = 0;
+			String nome, genero, tamanho;
+			int id, tipo;
 			double preco;
 
 			switch (opcao) {
@@ -73,18 +89,18 @@ public class Menu {
 					System.out.print("Digite o genero desse Jogo: ");
 					sc.skip("\\R");
 					genero = sc.nextLine();
-					
+					produtos.criarProduto(new Jogo(produtos.gerarId(), nome, tipo, preco, genero));
 					break;
 				case 2:
-					System.out.print("Digite o nome do personagem da Camiseta: ");
+					System.out.print("Digite o tecido da Camiseta: ");
 					sc.skip("\\R");
 					nome = sc.nextLine();
-					System.out.print("Digite o preço do " + nome + ":");
+					System.out.print("Digite o preço da camiseta: ");
 					preco = sc.nextFloat();
 					System.out.print("Digite o tamanho da camiseta: ");
 					sc.skip("\\R");
-					tamanho= sc.nextLine();
-					
+					tamanho = sc.nextLine();
+					produtos.criarProduto(new Camiseta(produtos.gerarId(), nome, tipo, preco, tamanho));
 					break;
 				}
 				keyPress();
@@ -92,14 +108,14 @@ public class Menu {
 			}
 			case 2: {
 				System.out.println("******************** Lista de Produtos ********************\n");
-				
+				produtos.listarProdutos();
 				keyPress();
 				break;
 			}
 			case 3: {
 				System.out.print("Digite o ID do Produto: ");
 				id = sc.nextInt();
-			
+				produtos.consultarPorId(id);
 				keyPress();
 				break;
 			}
@@ -108,9 +124,10 @@ public class Menu {
 				System.out.println("Digite o ID do Produto: ");
 				id = sc.nextInt();
 
+				Optional<Produto> produto = produtos.buscarNaCollection(id);
 
-
-				
+				if (produto.isPresent()) {
+					tipo = produto.get().getTipo();
 					System.out.println("Digite o novo nome do Produto: ");
 					sc.skip("\\R");
 					nome = sc.nextLine();
@@ -121,25 +138,32 @@ public class Menu {
 					case 1:
 						System.out.println("Digite o novo genero do jogo: ");
 						sc.skip("\\R");
-						genero= sc.nextLine();
-					
+						genero = sc.nextLine();
+						produtos.atualizarProduto(new Jogo(id, nome, tipo, preco, genero));
 						break;
 					case 2:
 						System.out.println("Digite o novo tamanho: ");
 						sc.skip("\\R");
 						tamanho = sc.nextLine();
-						
+						produtos.atualizarProduto(new Camiseta(id, nome, tipo, preco, tamanho));
 						break;
 					default:
 						System.out.println("Tipo de Produto inválido!");
 
 					}
-				
+				} else {
+					System.out.println("Produto não encontrado!");
+					keyPress();
+					break;
+					
+				}
+				keyPress();
+				break;
 			}
 			case 5: {
 				System.out.println("Digite o ID do Produto: ");
 				id = sc.nextInt();
-				
+				produtos.deletarProduto(id);
 				keyPress();
 			}
 			}

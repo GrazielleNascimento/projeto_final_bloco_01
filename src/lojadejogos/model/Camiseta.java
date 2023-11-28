@@ -6,7 +6,7 @@ public class Camiseta extends Produto {
 	
 	public Camiseta(int id, String nome, int tipo, double preco, String tamanho) {
 		super(id, nome, tipo, preco);
-		tamanho = tamanho;
+		this.tamanho = tamanho;
 	}
 
 	public String getTamanho() {
@@ -14,7 +14,7 @@ public class Camiseta extends Produto {
 	}
 
 	public void setTamanho(String tamanho) {
-		tamanho = tamanho;
+		this.tamanho = tamanho;
 	}
 
 	public void visualizar() {
